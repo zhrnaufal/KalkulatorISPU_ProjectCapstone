@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator ISPU</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('bgImage.jpg'); /* Ganti 'background-image.jpg' dengan URL gambar latar belakang Anda */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Mengisi tinggi viewport untuk gambar penuh */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        /* CSS untuk fieldset */
+        fieldset {
+            border: 2px solid #ffffff; /* Warna border sesuaikan dengan preferensi Anda */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Latar belakang semi transparan */
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+
+        /* CSS untuk input dan tombol */
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            width: 99%;
+            margin: 20px 0px 20px 0px;
+            padding: 15px 20px;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #kategori {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <fieldset>
+            <h1>Kalkulator ISPU</h1>
+            <!-- <legend>Formulir Perhitungan ISPU</legend> -->
+            <form id="ispu-form">
+                <label for="ia">Ia (Batas Atas ISPU):</label>
+                <input type="number" id="ia" name="ia" required>
+                <br>
+                <label for="ib">Ib (Batas Bawah ISPU):</label>
+                <input type="number" id="ib" name="ib" required>
+                <br>
+                <label for="xa">Xa (Konsentrasi Ambien Batas Atas µg/m³):</label>
+                <input type="number" id="xa" name="xa" required>
+                <br>
+                <label for="xb">Xb (Konsentrasi Ambien Batas Bawah µg/m³):</label>
+                <input type="number" id="xb" name="xb" required>
+                <br>
+                <label for="xx">Xx (Konsentrasi Ambien Nyata Hasil Pengukuran µg/m³):</label>
+                <input type="number" id="xx" name="xx" required>
+                <br>
+                <button id="btn" type="button" onclick="hitungISPU()">Hitung ISPU</button>
+            </form>
+        </fieldset>
+        <div id="result"></div>
+        <div id="kategori"></div>
+    </div>
+    <script>
+        function hitungISPU() {
+            const ia = parseFloat(document.getElementById('ia').value);
+            const ib = parseFloat(document.getElementById('ib').value);
+            const xa = parseFloat(document.getElementById('xa').value);
+            const xb = parseFloat(document.getElementById('xb').value);
+            const xx = parseFloat(document.getElementById('xx').value);
+            
+            // Hitung ISPU menggunakan rumus yang Anda berikan
+            const ispu = (ia - ib) / (xa - xb) * (xx - xb) + ib;
+
+            // Tentukan kategori ISPU berdasarkan hasil perhitungan
+            let kategori = '';
+            if (ispu >= 1 && ispu <= 50) {
+                kategori = 'Baik';
+            } else if (ispu <= 100) {
+                kategori = 'Sedang';
+            } else if (ispu <= 200) {
+                kategori = 'Tidak Sehat';
+            } else if (ispu <= 300) {
+                kategori = 'Sangat Tidak Sehat';
+            } else {
+                kategori = 'Berbahaya';
+            }
+            
+            document.getElementById('result').innerHTML = `ISPU: ${ispu.toFixed(2)}`;
+            document.getElementById('kategori').innerHTML = `Kategori: ${kategori}`;
+        }
+    </script>
+</body>
+</html>
